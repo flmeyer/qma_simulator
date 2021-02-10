@@ -40,13 +40,13 @@ class QMA:
         rewards = np.array([-99 for action in actions])
         for action_idx, action in enumerate(actions):
             if action == QActions.BACKOFF:
-                if not self._is_collision(actions) and np.count_nonzero(actions == QActions.BACKOFF) != len(actions):
+                if not self._is_collision(actions, QActions.CCA) and not self._is_collision(actions, QActions.SEND) and np.count_nonzero(actions == QActions.BACKOFF) != len(actions):
                     rewards[action_idx] = 2
                 else:
                     rewards[action_idx] = 0
             elif action == QActions.CCA:
-                if not self._is_cca_success(actions):
-                    if self._is_collision(actions):
+                if self._is_cca_success(actions):
+                    if not self._is_collision(actions, QActions.CCA):
                         rewards[action_idx] = 3
                     else:
                         rewards[action_idx] = -2
@@ -54,14 +54,15 @@ class QMA:
                     rewards[action_idx] = 1
 
             elif action == QActions.SEND:
-                if self._is_collision(actions):
+                if self._is_collision(actions, QActions.SEND):
                     rewards[action_idx] = -3
                 else:
                     rewards[action_idx] = 4
         return rewards
 
-    def _is_collision(self, actions):
-        return np.count_nonzero(actions == QActions.CCA) > 1 or np.count_nonzero(actions == QActions.SEND) > 1
+    def _is_collision(self, actions, ownAction):
+        return np.count_nonzero(actions == ownAction) > 1
+        #return np.count_nonzero(actions == QActions.CCA) > 1 or np.count_nonzero(actions == QActions.SEND) > 1
 
     def _is_cca_success(self, actions):
         return np.count_nonzero(actions == QActions.SEND) == 0
