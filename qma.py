@@ -23,17 +23,20 @@ class QMA:
 
     def get_next_timestep(self, slot):
         assert(0 <= slot < self.slots)
-        actions = self._select_actions(slot)
+        print("-------------") 
+        actions, random_actions = self._select_actions(slot)
         rewards = self._calculate_rewards(actions)
         self._update_qtables(slot, actions, rewards)
-        return self.qtable, actions, rewards
+        return self.qtable, actions, random_actions, rewards
 
     def _select_actions(self, slot):
-        actions = self.policies[:,slot]
+        actions = np.copy(self.policies[:,slot])
+        random_actions = [False for node in range(self.nodes)] 
         for action_idx in range(len(actions)):
             if np.random.random() < self.rho:
                 actions[action_idx] = np.random.choice(list(QActions))
-        return actions
+                random_actions[action_idx] = True
+        return actions, random_actions 
 
     def _calculate_rewards(self, actions):
         assert(len(actions) == self.nodes)
@@ -71,8 +74,10 @@ class QMA:
         assert(len(rewards) == self.nodes and len(actions) == self.nodes and 0 <= slot < self.slots)
         for node,action in enumerate(actions):
             other_q = (1-self.alpha)*self.qtable[node,slot,action] + self.alpha*(rewards[node] + self.gamma*np.max(self.qtable[node,(slot+1)%self.slots,:]))
+            print(f"node: {node} current: {self.qtable[node,slot,action]} other: {other_q}")
             self.qtable[node,slot,action] = np.max([self.qtable[node,slot,action]-self.xi, other_q])
-            if np.max(self.qtable[node,slot,:]) < other_q:
-                self.policy[node, slot] = action
-
+            #if np.max(self.qtable[node,slot,:]) < other_q:
+            #    self.policy[node, slot] = action
+            if np.max(self.qtable[node,slot,:]) != self.qtable[node,slot,self.policies[node,slot]]:
+                self.policies[node,slot] = np.argmax(self.qtable[node,slot,:])   
         #self.qtable[:,slot,actions] = rewards

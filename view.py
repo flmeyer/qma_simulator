@@ -69,6 +69,7 @@ class SimulatorWindow(QWidget):
         self.steps_label = QLabel("steps:")
         self.steps_input = QSpinBox()
         self.steps_input.setValue(1)
+        self.steps_input.setMaximum(10000) 
         self.run_button = QPushButton('Run', self)
         self.run_button.clicked.connect(self._handle_run)
         self.run_button.setToolTip('Run QMA for the next time steps')
@@ -89,7 +90,7 @@ class SimulatorWindow(QWidget):
     def _update_values(self):
         current_frame = int(self.steps / self.qma.slots)
         current_slot = self.steps % self.qma.slots
-        qtables, actions, rewards = self.qma.get_next_timestep(current_slot)
+        qtables, actions, random_actions, rewards = self.qma.get_next_timestep(current_slot)
         qtables = np.round(qtables, 3)
 
         if current_slot == 0:
@@ -114,6 +115,8 @@ class SimulatorWindow(QWidget):
             item = self.table.item((len(QActions)+1)*node + actions[node], current_frame * (self.qma.slots+1) + current_slot)
             item.setBackground(QColor(100, 100, 100))
             item.setText(item.text() + f" ({rewards[node]})")
+            if random_actions[node]: 
+                item.setText(item.text() + " R") 
 
 
     def _handle_reset(self):
@@ -144,6 +147,24 @@ class SimulatorWindow(QWidget):
 if __name__ == '__main__':
     print("Welcome to QMA simulator!")
     app = QApplication([])
+
+    app.setStyle("Fusion")
+    palette = QPalette()
+    palette.setColor(QPalette.Window, QColor(53, 53, 53))
+    palette.setColor(QPalette.WindowText, Qt.white)
+    palette.setColor(QPalette.Base, QColor(25, 25, 25))
+    palette.setColor(QPalette.AlternateBase, QColor(53, 53, 53))
+    palette.setColor(QPalette.ToolTipBase, Qt.black)
+    palette.setColor(QPalette.ToolTipText, Qt.white)
+    palette.setColor(QPalette.Text, Qt.white)
+    palette.setColor(QPalette.Button, QColor(53, 53, 53))
+    palette.setColor(QPalette.ButtonText, Qt.white)
+    palette.setColor(QPalette.BrightText, Qt.red)
+    palette.setColor(QPalette.Link, QColor(42, 130, 218))
+    palette.setColor(QPalette.Highlight, QColor(42, 130, 218))
+    palette.setColor(QPalette.HighlightedText, Qt.black)
+    app.setPalette(palette)
+
     win = SimulatorWindow()
     win.show()
     app.exec_()
