@@ -23,7 +23,6 @@ class QMA:
 
     def get_next_timestep(self, slot):
         assert(0 <= slot < self.slots)
-        print("-------------") 
         actions, random_actions = self._select_actions(slot)
         rewards = self._calculate_rewards(actions)
         self._update_qtables(slot, actions, rewards)
