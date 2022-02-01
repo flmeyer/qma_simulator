@@ -1,5 +1,7 @@
 # QMA Simulator 
 
+[![DOI](https://sandbox.zenodo.org/badge/330501117.svg)](https://sandbox.zenodo.org/badge/latestdoi/330501117)
+
 QMA is a resource-efficient, **Q**-Learning-based **M**ultiple **A**ccess scheme for the industrial Internet of Things (see [[1]](#References)). It is specifically designed for contention-based channel access during secondary traffic, i.e., for the transmission of management messages. These include messages for slot allocation and broadcasts for routing. The supplied scripts allow the "simulation" of QMA over long periods of time. All relevant parameters are configurable so that QMA's behavior in different configurations can be studied.
 
 The scripts require the *numpy* and *PyQT5* libraries.
