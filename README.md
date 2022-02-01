@@ -1,7 +1,8 @@
 # QMA Simulator 
 
-QMA is a resource-efficient, Q-Learning-based multiple access scheme for the industrial Internet of Things (see [[1]](#References)). It is specifically designed for contention-based channel access during secondary traffic, i.e., for the transmission of management messages. These include messages for slot allocation and broadcasts for routing. The supplied scripts allow the "simulation" of QMA of long periods of time. All relevant relevant parameters are configurable so that QMA's behavior in different configuration can be studied.
+QMA is a resource-efficient, **Q**-Learning-based **M**ultiple **A**ccess scheme for the industrial Internet of Things (see [[1]](#References)). It is specifically designed for contention-based channel access during secondary traffic, i.e., for the transmission of management messages. These include messages for slot allocation and broadcasts for routing. The supplied scripts allow the "simulation" of QMA over long periods of time. All relevant parameters are configurable so that QMA's behavior in different configurations can be studied.
 
+The scripts require *numpy* and *PyQT5*.
 
 
 ## References
