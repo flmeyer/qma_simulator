@@ -6,7 +6,7 @@ QMA is a resource-efficient, Q-Learning-based multiple access scheme for the ind
 
 ## References
 
-[1]: Meyer, F., Turau, V.: QMA: A Resource-efficient, Q-learning-based Multiple Access Scheme for the IIoT. In: 2021 IEEE 41st International Conference on Distributed Computing Systems (ICDCS). IEEE (2021). <https://doi.org/10.1109/icdcs51616.2021.00087>.
+[1]: Meyer, F., Turau, V.: *QMA: A Resource-efficient, Q-learning-based Multiple Access Scheme for the IIoT*. In: 2021 IEEE 41st International Conference on Distributed Computing Systems (ICDCS). IEEE (2021). <https://doi.org/10.1109/icdcs51616.2021.00087>.
 
-[2]: Preprint - Meyer, F., Turau, V.: QMA: A Resource-efficient, Q-Learning-based Multiple Access Scheme for the IIoT. (2021). <https://arxiv.org/abs/2101.04003>.
+[2]: Meyer, F., Turau, V.: *QMA: A Resource-efficient, Q-Learning-based Multiple Access Scheme for the IIoT*. (2021). **Preprint**. <https://arxiv.org/abs/2101.04003>.
 
