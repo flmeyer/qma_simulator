@@ -40,7 +40,7 @@ class QMA:
 
     def _calculate_rewards(self, actions):
         assert(len(actions) == self.nodes)
-        rewards = np.array([-99 for action in actions])
+        rewards = np.array([-999 for action in actions])
         for action_idx, action in enumerate(actions):
             if action == QActions.BACKOFF:
                 if not self._is_collision(actions, QActions.CCA) and not self._is_collision(actions, QActions.SEND) and np.count_nonzero(actions == QActions.BACKOFF) != len(actions):
@@ -65,7 +65,6 @@ class QMA:
 
     def _is_collision(self, actions, ownAction):
         return np.count_nonzero(actions == ownAction) > 1
-        #return np.count_nonzero(actions == QActions.CCA) > 1 or np.count_nonzero(actions == QActions.SEND) > 1
 
     def _is_cca_success(self, actions):
         return np.count_nonzero(actions == QActions.SEND) == 0
@@ -74,10 +73,6 @@ class QMA:
         assert(len(rewards) == self.nodes and len(actions) == self.nodes and 0 <= slot < self.slots)
         for node,action in enumerate(actions):
             other_q = (1-self.alpha)*self.qtable[node,slot,action] + self.alpha*(rewards[node] + self.gamma*np.max(self.qtable[node,(slot+1)%self.slots,:]))
-            print(f"node: {node} current: {self.qtable[node,slot,action]} other: {other_q}")
             self.qtable[node,slot,action] = np.max([self.qtable[node,slot,action]-self.xi, other_q])
-            #if np.max(self.qtable[node,slot,:]) < other_q:
-            #    self.policy[node, slot] = action
             if np.max(self.qtable[node,slot,:]) != self.qtable[node,slot,self.policies[node,slot]]:
                 self.policies[node,slot] = np.argmax(self.qtable[node,slot,:])   
-        #self.qtable[:,slot,actions] = rewards
